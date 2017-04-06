@@ -2,7 +2,7 @@
 
 ## Summary
 
-### Note: For feature 3 I have used the numpy argpartition for selecting the k largest elements which is not an stable sorting scheme. Initially I missed the importance of stable soting for this case. I started the project really late. Since I had another deadline but I am aware of the bug. I would appreciate if I be given an extension to fix this bug. But I am fully aware of it and just had no time to fix it. 
+### Note: Upadted version: The previous version was using the np.argpartition to find the k largest busy periods which was not stable sorting. This was resulting in wrong answers. In this version I have replaced it with a simple algorithim. However the time complexity of this method is O(kN)  
 
 This program loads a log text file and performs the following using the data:
 
