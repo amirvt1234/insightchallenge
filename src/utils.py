@@ -31,5 +31,5 @@ def convert_time_inttostr(inttime):
     time  = datetime.utcfromtimestamp(inttime+reftsec) 
     return time.strftime('%d/%b/%Y:%H:%M:%S') #
 
-assert convert_time_inttostr(1)=='01/Jul/1995:00:00:01'
+#assert convert_time_inttostr(1)=='01/Jul/1995:00:00:01'
 
