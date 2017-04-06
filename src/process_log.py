@@ -73,7 +73,6 @@ def process(argv):
         for i in range(k3): #w1, w2 in zip(max_visit_h[0],max_visit_h[1]):
             w1 = max_visit_h[0][i]
             w2 = max_visit_h[1][i]
-            print (w1, w2)
             s3 = '{0} -0400,{1:d}'.format(utils.convert_time_inttostr(w1),int(w2))
             f3.write(s3+'\n')
     with open(sys.argv[5],'w') as f4:
