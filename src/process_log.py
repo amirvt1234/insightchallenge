@@ -62,11 +62,11 @@ def process(argv):
     max_visit_h = visited_in_time_window(t_sec_array, t_window, k3)
 
     with open(sys.argv[2],'w') as f1:
-        for w in max_user_access:
+        for w in itertools.chain(max_user_access[0],max_user_access[1]):
             s1 = '{0},{1:d}'.format(w[1],w[0])
             f1.write(s1+'\n')
     with open(sys.argv[3],'w') as f2:
-        for w in max_request_use:
+        for w in itertools.chain(max_request_use[0],max_request_use[1]):
             s2 = '{0}'.format(w[1])
             f2.write(s2+'\n')
     with open(sys.argv[4],'w') as f3:
@@ -83,14 +83,19 @@ def process(argv):
 def 	dict_klargest(dictin, k):
     """
     Uses the heapq nlarges method the calculate the k largest elements in a dictionary
-    The time order of the method is: O(N log(k))
+    Then it finds the values which are equal to the smallest one. This adds O(N) to the algorithm. 
+    It needs to be modified to become more efficient I guess. 
+    The time order of the method is: O(N log(k)+N)
     Parameters
     ----------
     dictin: input dictionary
     k     : integer the number of elements we want to return 
     """
-    dict_list = [(value, key) for key,value in dictin.items()]
-    return  heapq.nlargest(10,dict_list)
+    dict_list     = [(value, key) for key,value in dictin.iteritems()]
+    klargest      = heapq.nlargest(k,dict_list)
+    # adds the extra items in the dictionary that are equal to the smallest one. Adds O(N)
+    add_to_list   = [(value, key) for key,value in dictin.iteritems() if value == klargest[-1][0] and key != klargest[-1][1]]
+    return  (klargest, add_to_list)
 
 def visited_in_time_window(timeinsec, rolling_window=3600, k3=10):
     """
