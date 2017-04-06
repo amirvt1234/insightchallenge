@@ -1,3 +1,0 @@
-[Thu Apr  6 00:44:35 EDT 2017] 4 of 4 tests passed
-[Thu Apr  6 00:45:39 EDT 2017] 4 of 4 tests passed
-[Thu Apr  6 00:45:51 EDT 2017] 4 of 4 tests passed
