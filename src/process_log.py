@@ -55,7 +55,7 @@ def process(argv):
             should_block = user_login_info(login_block[user], t_sec, request[1], reply, should_block)   #, indexb3
             if should_block == True:
                 block_s += '{0} - - {1} -0400] "{2}" {3:d} {4:d}'.format(user, t, " ".join(request), reply, byte)+'\n'
-    assert t_sec_array[0] == 1
+    #assert t_sec_array[0] == 1
     
     max_user_access = dict_klargest(user_access, k1)
     max_request_use = dict_klargest(request_usage,k2)
