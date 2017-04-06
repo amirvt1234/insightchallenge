@@ -59,7 +59,7 @@ def process(argv):
     
     max_user_access = dict_klargest(user_access, k1)
     max_request_use = dict_klargest(request_usage,k2)
-    max_visit_h = visited_in_time_window(t_sec_array, t_window, k3+4)
+    max_visit_h = visited_in_time_window(t_sec_array, t_window, k3)
 
     with open(sys.argv[2],'w') as f1:
         for w in max_user_access:
@@ -70,9 +70,7 @@ def process(argv):
             s2 = '{0}'.format(w[1])
             f2.write(s2+'\n')
     with open(sys.argv[4],'w') as f3:
-        for i in range(k3): #w1, w2 in zip(max_visit_h[0],max_visit_h[1]):
-            w1 = max_visit_h[0][i]
-            w2 = max_visit_h[1][i]
+        for w1, w2 in zip(max_visit_h[0],max_visit_h[1]):
             s3 = '{0} -0400,{1:d}'.format(utils.convert_time_inttostr(w1),int(w2))
             f3.write(s3+'\n')
     with open(sys.argv[5],'w') as f4:
@@ -94,7 +92,7 @@ def 	dict_klargest(dictin, k):
     dict_list = [(value, key) for key,value in dictin.items()]
     return  heapq.nlargest(10,dict_list)
 
-def visited_in_time_window(timeinsec, rolling_window=3600, k3=11):
+def visited_in_time_window(timeinsec, rolling_window=3600, k3=10):
     """
     Calculates the visits in the given hour
     Parameters
