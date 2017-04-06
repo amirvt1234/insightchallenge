@@ -94,44 +94,39 @@ def 	dict_klargest(dictin, k):
     dict_list = [(value, key) for key,value in dictin.items()]
     return  heapq.nlargest(10,dict_list)
 
-def visited_in_time_window(timeinsec, rolling_window=3600, k3=10):
+def visited_in_time_window(timeinsec, rolling_window=3600, k3=11):
     """
     Calculates the visits in the given hour
     Parameters
+    The time complexity of the k sorting method is O(kN)
     ----------
     rolling_window: window size in seconds
     k3            : is the number of k largest windows
-    Please note that I have used the argpartition for this function which is not an stable sort
-    Thus this part has a bug in it and I am aware of it but I noticed it very late until ran the provided
-    unit test and I was running out of time so I just tweaked it to pass that test. It will be buggy and can be wrong 
-    I will fix it in a proper time. 
     """
     time_n = np.array(timeinsec, dtype=int)
     time_unique = np.unique(time_n, return_index=True)
     # Create an array with the size equal to the number of the seconds in batchfile 
     # and fill it with the times it has been accessed during each second
-    time_freq = np.zeros(time_n[-1]+rolling_window+1, dtype=int)
+    time_freq = np.zeros(time_n[-1]+rolling_window-1, dtype=int)
     for i in range(len(time_unique[0])-1):
         time_freq[time_unique[0][i]-1] = time_unique[1][i+1]-time_unique[1][i]
     time_freq[time_n[-1]-time_n[0]] = len(time_n)-time_unique[1][-1]
+    # Calculate the cumulative sum of the time frequency
     cumsum_time = np.cumsum(time_freq,axis=0)
     #visited_tw = np.zeros(time_n[-1]-rolling_window-time_n[0], dtype=int) # check it
-    visited_tw = np.zeros(time_n[-1], dtype=int)
+    visited_tw = np.zeros(time_n[-1]-time_n[0], dtype=int)
     # Calculate the frequency in the given time window
     visited_tw[0] = cumsum_time[rolling_window-1]
-    for i in range(len(visited_tw)-1): # check it
-        visited_tw[i+1] = cumsum_time[i+rolling_window]-cumsum_time[i]
-    #visited_tw[-1] = cumsum_time[-1]-cumsum_time[time_n[-2]]
-    index_visit_max = np.argpartition(visited_tw, -k3)[-k3:]
-    indexold = np.argsort(visited_tw[index_visit_max], kind='quicksort')[::-1]
-    indexold = index_visit_max[indexold]
-    newindex = np.zeros(k3)
-    newindex = indexold
+    for i in range(1,len(visited_tw)): # check it
+        visited_tw[i] = cumsum_time[i+rolling_window-1]-cumsum_time[i-1]
+    Max_index = np.zeros(k3, int)
+    Max_val   = np.zeros(k3, int)
+    visited_tw_n = visited_tw
     for i in range(k3):
-        for j in range(i,k3):
-            if indexold[j]<newindex[i] and visited_tw[indexold[j]]== visited_tw[newindex[i]]:
-                newindex[i], indexold[j] = indexold[j], newindex[i]
-    return (time_n[0]+newindex, visited_tw[newindex])
+        idx = np.argmax(visited_tw)
+        Max_val[i] = visited_tw[idx]
+        Max_index[i]=idx; visited_tw[idx]=0
+    return (Max_index+time_n[0],Max_val) 
 
 def user_login_info(block_info, t_sec, request, reply, should_block):
     """
