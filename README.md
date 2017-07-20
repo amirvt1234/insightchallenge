@@ -2,10 +2,6 @@
 
 ## Summary
 
-### Note1: Upadted version: The previous code was not writing the values that ver equal to the kth most active users while they will be still considered among the top k active users. The new version accounts for those users/requests which can be relevent for features 1 and 2. However it also add O(N) to time complexity. This can be further modified for better performance.  
-
-### Note2: Upadted version: The previous version was using the np.argpartition to find the k largest busy periods which was not stable sorting. This was resulting in wrong answers. In this version I have replaced it with a simple algorithim. However the time complexity of this method is O(kN)  
-
 This program loads a log text file and performs the following using the data:
 
 - Lists the kth most active host/IP addresses
